@@ -1,0 +1,12 @@
+*.kdev4
+.kdev4/
+*.pro.user
+ui_*.h
+*.o
+*.so
+*.so.*
+*.a
+moc_*.cpp
+Makefile
+out/*
+build/

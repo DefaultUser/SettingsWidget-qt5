@@ -25,40 +25,53 @@
 #include <QJsonObject>
 
 
+/**
+ * @brief Abstract Item for SettingsPanel
+ *
+ */
 class SettingItem : public QWidget
 {
     Q_OBJECT
 
 public:
-    SettingItem(QWidget* parent = 0);
+
+    SettingItem(QString section, QString key, QString desc = "", QWidget* parent = 0);
+    /**
+     * @brief Parse the given Json object and populate the SettingItem with its information
+     *
+     * @param obj the json object
+     * @param parent the SettingItem's parent
+     * @return SettingItem*
+     */
     static SettingItem* fromJsonObject(QJsonObject obj, QWidget* parent = 0);
 
 protected:
-    virtual void parseJsonObject(QJsonObject obj) = 0;
+
+    /**
+     * @brief The section where the setting should be saved
+     */
+    QString _section;
+    /**
+     * @brief The key which is used to save the setting
+     */
+    QString _key;
 };
 
 
-class SettingTitle : public SettingItem
-{
-    Q_OBJECT
-
-public:
-    SettingTitle(QString title, QString desc = "", QWidget* parent = 0);
-
-protected:
-    void parseJsonObject(QJsonObject obj);
-};
-
-
+/**
+ * @brief A labeled checkbox
+ *
+ */
 class SettingBool : public SettingItem
 {
     Q_OBJECT
 
 public:
+
     SettingBool(QString title, QString section, QString key, bool default_value, QString desc = "", QWidget* parent = 0);
 
+    static SettingItem* fromJsonObject(QJsonObject obj, QWidget* parent = 0);
 protected:
-    void parseJsonObject(QJsonObject obj);
 
 private:
     QCheckBox* checkbox;

@@ -27,6 +27,10 @@
 #include "settingitems.h"
 
 
+/**
+ * @brief A panel displaying several settings
+ *
+ */
 class SettingsPanel : public QWidget
 {
     Q_OBJECT
@@ -34,16 +38,39 @@ class SettingsPanel : public QWidget
 public:
     SettingsPanel(QWidget* parent = 0);
 
+    /**
+     * @brief Generate a SettingsPanel from a json array
+     *
+     * @param json A json array with information on how to fill the panel
+     * @param parent The panel's parent
+     * @return SettingsPanel*
+     */
     static SettingsPanel* fromJson(QJsonArray json, QWidget* parent = 0);
 
+    /**
+     * @brief Add a new SettingItem to the panel
+     *
+     * @param item the SettingItem to add
+     * @return void
+     */
     void addSettingItem(SettingItem* item);
+    /**
+     * @brief Add a title seperator to the panel
+     *
+     * @param title the text that should be displayed
+     * @return void
+     */
+    void addTitle(QString title);
 
 protected:
     static SettingsTypeMap _typemap;
 
 
 private:
-    QVBoxLayout* _layout;
+    /**
+     * @brief List of all the SettingItems in this panel
+     */
+    std::list<SettingItem*> items = {};
 };
 
 #endif // SETTINGSPANEL_H

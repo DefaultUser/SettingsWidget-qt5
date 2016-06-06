@@ -23,8 +23,8 @@
 
 SettingsPanel::SettingsPanel(QWidget* parent) : QWidget(parent)
 {
-    _layout = new QVBoxLayout(this);
-    setLayout(_layout);
+    auto layout = new QVBoxLayout(this);
+    setLayout(layout);
 }
 
 
@@ -37,5 +37,13 @@ SettingsPanel* SettingsPanel::fromJson(QJsonArray json, QWidget* parent)
 
 void SettingsPanel::addSettingItem(SettingItem* item)
 {
-    _layout->addWidget(item);
+    items.push_back(item);
+    layout()->addWidget(item);
+}
+
+void SettingsPanel::addTitle(QString title)
+{
+    QLabel* label = new QLabel("<b>" + title + "<b/>", this);
+    label->setAlignment(Qt::AlignCenter);
+    layout()->addWidget(label);
 }

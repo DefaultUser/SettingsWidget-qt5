@@ -20,40 +20,29 @@
 
 #include "settingitems.h"
 
-SettingItem::SettingItem(QWidget* parent) : QWidget(parent)
+SettingItem::SettingItem(QString section, QString key, QString desc, QWidget* parent)
+    : QWidget(parent), _section(section), _key(key)
 {
-}
-
-
-SettingTitle::SettingTitle(QString title, QString desc, QWidget* parent): SettingItem(parent)
-{
-    auto layout = new QHBoxLayout(this);
-    QLabel* label = new QLabel("<b>" + title + "<b/>", this);
-    label->setAlignment(Qt::AlignCenter);
-    layout->addWidget(label);
-    setLayout(layout);
-}
-
-
-void SettingTitle::parseJsonObject(QJsonObject obj)
-{
-
+    setToolTip(desc);
 }
 
 
 SettingBool::SettingBool(QString title, QString section, QString key, bool default_value,
                          QString desc, QWidget* parent)
-    : SettingItem(parent)
+    : SettingItem(section, key, desc, parent)
 {
     auto layout = new QHBoxLayout(this);
     QLabel* label = new QLabel(title, this);
-    checkbox = new QCheckBox(this);
+//     checkbox = new QCheckBox(this);
+    // TODO: load state from settings and use "default_value" if not found
     layout->addWidget(label);
     layout->addWidget(checkbox);
     setLayout(layout);
 }
 
-void SettingBool::parseJsonObject(QJsonObject obj)
-{
 
+SettingItem* SettingBool::fromJsonObject(QJsonObject obj, QWidget* parent)
+{
+    // TODO: parse the json object
+    return new SettingBool("", "", "", true, "", parent);
 }

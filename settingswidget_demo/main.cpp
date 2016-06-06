@@ -31,19 +31,15 @@ int main(int argc, char *argv[])
 
     SettingsWidget wid(settings, 0, QTabWidget::West);
     SettingsPanel* panel = new SettingsPanel(&wid);
-    SettingTitle* title = new SettingTitle("Title", "", panel);
-    panel->addSettingItem(title);
-    SettingBool* set_bool = new SettingBool("testbool", "sec1", "key1", false, "", panel);
+    panel->addTitle("Title");
+    SettingBool* set_bool = new SettingBool("testbool", "sec1", "key1", false, "TEST", panel);
     panel->addSettingItem(set_bool);
-    SettingTitle* title2 = new SettingTitle("Title2", "", panel);
-    panel->addSettingItem(title2);
+    panel->addTitle("Title2");
     SettingBool* set_bool2 = new SettingBool("testbool2", "sec1", "key2", false, "", panel);
     panel->addSettingItem(set_bool2);
-    SettingTitle* title3 = new SettingTitle("Title3", "", panel);
-    panel->addSettingItem(title3);
     SettingBool* set_bool3 = new SettingBool("testbool3", "sec1", "key3", false, "", panel);
     panel->addSettingItem(set_bool3);
-    wid.addPanel("Testpanel", panel);
+    wid.addPanel("Testpanel", panel, QIcon::fromTheme("document-new"));
     wid.show();
 
     return a.exec();

@@ -25,6 +25,10 @@
 #include <QSettings>
 #include "settingspanel.h"
 
+/**
+ * @brief A widget to display and edit settings using several SettingsPanels.
+ *
+ */
 class SettingsWidget : public QWidget
 {
     Q_OBJECT
@@ -32,7 +36,23 @@ class SettingsWidget : public QWidget
 public:
     SettingsWidget(QSettings* settings, QWidget* parent = 0, QTabWidget::TabPosition position = QTabWidget::North);
     void setTabbarPosition(QTabWidget::TabPosition position);
+    /**
+     * @brief Add a SettingsPanel to the QTabWidget
+     *
+     * @param panelname The name for the panel
+     * @param panel The actual SettingsPanel
+     * @param icon optional icon that is displayed in the QTabBar
+     * @return void
+     */
     void addPanel(QString panelname, SettingsPanel* panel, QIcon icon = QIcon());
+    /**
+     * @brief Generate a SettingsPanel from a .json file and add it to this SettingsWidget
+     *
+     * @param panelname The name for the panel
+     * @param filename The filename of the .json file
+     * @param icon optional icon that is displayed in the QTabBar
+     * @return void
+     */
     void addJsonPanel(QString panelname, QString filename, QIcon icon = QIcon());
 
 private:

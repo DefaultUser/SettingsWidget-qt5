@@ -55,6 +55,7 @@ void SettingsWidget::addPanel(QString panelname, SettingsPanel* panel, QIcon ico
 void SettingsWidget::addJsonPanel(QString panelname, QString filename, QIcon icon)
 {
     auto array = QJsonArray();
+    // TODO: extract the QJsonArray out of the file
     addPanel(panelname, SettingsPanel::fromJson(array), icon);
 }
 

@@ -21,23 +21,23 @@
 #include "settingspanel.h"
 
 
-SettingsPanel::SettingsPanel(QWidget* parent) : QWidget(parent)
+SettingsPanel::SettingsPanel(QSettings* settings, QWidget* parent) : QWidget(parent), _settings(settings)
 {
     auto layout = new QVBoxLayout(this);
     setLayout(layout);
 }
 
 
-SettingsPanel* SettingsPanel::fromJson(QJsonArray json, QWidget* parent)
+SettingsPanel* SettingsPanel::fromJson(QJsonArray json, QSettings* settings, QWidget* parent)
 {
-    auto panel = new SettingsPanel(parent);
+    auto panel = new SettingsPanel(settings, parent);
     return panel;
 }
 
 
 void SettingsPanel::addSettingItem(SettingItem* item)
 {
-    items.push_back(item);
+    _items.push_back(item);
     layout()->addWidget(item);
 }
 

@@ -54,10 +54,18 @@ public:
      * @return void
      */
     void addJsonPanel(QString panelname, QString filename, QIcon icon = QIcon());
+    /**
+     * @brief Generate a SettingsPanel from a .json file and add it to this SettingsWidget
+     *
+     * @param panelname The name for the panel
+     * @param json The json array containing information for panel creation
+     * @param icon optional icon that is displayed in the QTabBar
+     * @return void
+     */
+    void addJsonPanel(QString panelname, QJsonArray json, QIcon icon = QIcon());
 
 private:
     QSettings* _settings;
-
     QTabWidget* _panel_container;
 };
 

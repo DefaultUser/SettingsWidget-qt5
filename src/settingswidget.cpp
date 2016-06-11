@@ -18,12 +18,14 @@
  *
  */
 
+#include <iostream>
 #include "settingswidget.h"
 
 
 SettingsWidget::SettingsWidget(QSettings* settings, QWidget* parent, QTabWidget::TabPosition position)
     : QWidget(parent), _settings(settings)
 {
+    // Layout
     QVBoxLayout* layout = new QVBoxLayout(this);
     auto buttons = new QDialogButtonBox(QDialogButtonBox::Ok |
                                         QDialogButtonBox::Cancel |
@@ -55,7 +57,13 @@ void SettingsWidget::addPanel(QString panelname, SettingsPanel* panel, QIcon ico
 void SettingsWidget::addJsonPanel(QString panelname, QString filename, QIcon icon)
 {
     auto array = QJsonArray();
-    // TODO: extract the QJsonArray out of the file
-    addPanel(panelname, SettingsPanel::fromJson(array), icon);
+    // TODO: read json array from file
+    addJsonPanel(panelname, array, icon);
 }
 
+
+void SettingsWidget::addJsonPanel(QString panelname, QJsonArray json, QIcon icon)
+{
+    // TODO: extract the QJsonArray out of the file
+    addPanel(panelname, SettingsPanel::fromJson(json, _settings), icon);
+}

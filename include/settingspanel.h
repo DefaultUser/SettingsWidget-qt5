@@ -36,7 +36,7 @@ class SettingsPanel : public QWidget
     Q_OBJECT
 
 public:
-    SettingsPanel(QWidget* parent = 0);
+    SettingsPanel(QSettings* settings, QWidget* parent = 0);
 
     /**
      * @brief Generate a SettingsPanel from a json array
@@ -45,7 +45,7 @@ public:
      * @param parent The panel's parent
      * @return SettingsPanel*
      */
-    static SettingsPanel* fromJson(QJsonArray json, QWidget* parent = 0);
+    static SettingsPanel* fromJson(QJsonArray json, QSettings* settings, QWidget* parent = 0);
 
     /**
      * @brief Add a new SettingItem to the panel
@@ -62,15 +62,16 @@ public:
      */
     void addTitle(QString title);
 
-protected:
-    static SettingsTypeMap _typemap;
-
-
 private:
     /**
      * @brief List of all the SettingItems in this panel
      */
-    std::list<SettingItem*> items = {};
+    std::list<SettingItem*> _items = {};
+
+    /**
+     * @brief The settings to use
+     */
+    QSettings* _settings;
 };
 
 #endif // SETTINGSPANEL_H

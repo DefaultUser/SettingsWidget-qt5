@@ -31,6 +31,32 @@ SettingsPanel::SettingsPanel(QSettings* settings, QWidget* parent) : QWidget(par
 SettingsPanel* SettingsPanel::fromJson(QJsonArray json, QSettings* settings, QWidget* parent)
 {
     auto panel = new SettingsPanel(settings, parent);
+    // extract info from the json array
+    for(auto obj_ref : json)
+    {
+        if(!obj_ref.isObject())
+        {
+            qWarning() << "Json array does not contain json objects - skipping ...";
+            continue;
+        }
+        QJsonObject obj = obj_ref.toObject();
+
+        // sort out titles
+        if(obj["type"].toString() == "title")
+        {
+            panel->addTitle(obj["title"].toString());
+        }
+        else
+        {
+            auto new_item = SettingItemCreation::createItemfromJson(obj, settings, panel);
+            if(!new_item)
+            {
+                qWarning() << "SettingItemCreation for type " << obj["type"].toString() << " failed.";
+                continue;
+            }
+            panel->addSettingItem(new_item);
+        }
+    }
     return panel;
 }
 

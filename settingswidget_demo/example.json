@@ -1,0 +1,39 @@
+[
+ {
+     "type": "title",
+     "title": "Sample Title"
+ },
+ {
+     "type": "path",
+     "title": "Sample Path",
+     "desc": "some path",
+     "section": "generic",
+     "key": "sample_path",
+     "default": "/tmp"
+ },
+ {
+     "type": "options",
+     "title": "sample options",
+     "desc": "something",
+     "section": "generic",
+     "key": "sample_options",
+     "options": ["option a", "option b", "option c"],
+     "default": "option a"
+ },
+ {
+     "type": "string",
+     "title": "sample string",
+     "desc": "a sinple string example",
+     "section": "generic",
+     "key": "sample_string",
+     "default": ""
+ },
+ {
+     "type": "bool",
+     "title": "sample bool",
+     "desc": "true or false",
+     "section": "generic",
+     "key": "sample_bool",
+     "default": true
+ }
+]

@@ -56,14 +56,27 @@ void SettingsWidget::addPanel(QString panelname, SettingsPanel* panel, QIcon ico
 
 void SettingsWidget::addJsonPanel(QString panelname, QString filename, QIcon icon)
 {
-    auto array = QJsonArray();
-    // TODO: read json array from file
-    addJsonPanel(panelname, array, icon);
+    QFile json_file(filename);
+    if(!json_file.open(QIODevice::ReadOnly))
+    {
+        qWarning() << "Couldn't open json file " << filename << " - skipping panel creation";
+        return;
+    }
+
+    QByteArray data = json_file.readAll();
+    QJsonDocument json_doc = QJsonDocument::fromJson(data);
+
+    if(!json_doc.isArray())
+    {
+        qWarning() << "Json file " << filename << " does not contain a json array - skipping panel creation.";
+        return;
+    }
+
+    addJsonPanel(panelname, json_doc.array(), icon);
 }
 
 
 void SettingsWidget::addJsonPanel(QString panelname, QJsonArray json, QIcon icon)
 {
-    // TODO: extract the QJsonArray out of the file
     addPanel(panelname, SettingsPanel::fromJson(json, _settings), icon);
 }

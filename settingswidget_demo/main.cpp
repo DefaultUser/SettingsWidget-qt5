@@ -33,18 +33,6 @@ int main(int argc, char *argv[])
     SettingsWidget wid(settings, 0, QTabWidget::West);
     SettingsPanel* panel = new SettingsPanel(settings, &wid);
     panel->addTitle("Title");
-    // from json
-    QJsonObject json;
-    json["type"] = "bool";
-    json["title"] = "jsontest";
-    json["section"] = "sec1";
-    json["key"] = "key_json";
-    json["default"] = true;
-    auto myBool = SettingItemCreation::createItemfromJson(json, settings, panel);
-    if (myBool)
-    {
-        panel->addSettingItem(myBool);
-    }
     // from code
     SettingBool* set_bool = new SettingBool(settings, "testbool", "sec1", "key1", false, "TEST", panel);
     panel->addSettingItem(set_bool);
@@ -54,6 +42,11 @@ int main(int argc, char *argv[])
     SettingBool* set_bool3 = new SettingBool(settings, "testbool3", "sec1", "key3", false, "", panel);
     panel->addSettingItem(set_bool3);
     wid.addPanel("Testpanel", panel, QIcon::fromTheme("document-new"));
+
+    // from json
+    // better use an absolute file path
+    wid.addJsonPanel("Json panel", "../../settingswidget_demo/example.json");
+
     wid.show();
 
     return a.exec();

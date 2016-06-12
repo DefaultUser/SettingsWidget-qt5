@@ -64,6 +64,7 @@ void SettingsWidget::addJsonPanel(QString panelname, QString filename, QIcon ico
     }
 
     QByteArray data = json_file.readAll();
+    json_file.close();
     QJsonDocument json_doc = QJsonDocument::fromJson(data);
 
     if(!json_doc.isArray())

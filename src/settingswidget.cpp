@@ -28,6 +28,7 @@ SettingsWidget::SettingsWidget(QSettings* settings, QWidget* parent, QTabWidget:
     // Layout
     QVBoxLayout* layout = new QVBoxLayout(this);
     _buttons = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                    QDialogButtonBox::Apply |
                                     QDialogButtonBox::Cancel |
                                     QDialogButtonBox::RestoreDefaults, this);
     _panel_container = new QTabWidget();
@@ -89,11 +90,28 @@ void SettingsWidget::restoreDefaults()
 }
 
 
+void SettingsWidget::saveSettings()
+{
+    SettingsPanel* panel = (SettingsPanel*)_panel_container->currentWidget();
+    panel->saveSettings();
+}
+
+
 void SettingsWidget::on_buttonClicked(QAbstractButton* button)
 {
     QDialogButtonBox::StandardButton standard_button = _buttons->standardButton(button);
     switch(standard_button)
     {
+        case QDialogButtonBox::Ok:
+            saveSettings();
+            close();
+            break;
+        case QDialogButtonBox::Apply:
+            saveSettings();
+            break;
+        case QDialogButtonBox::Cancel:
+            close();
+            break;
         case QDialogButtonBox::RestoreDefaults:
             restoreDefaults();
             break;

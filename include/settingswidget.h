@@ -85,6 +85,13 @@ private:
      */
     void restoreDefaults();
 
+    /**
+     * @brief Save all the settings in the currently active SettingsPanel to disk
+     *
+     * @return void
+     */
+    void saveSettings();
+
 private slots:
 
     void on_buttonClicked(QAbstractButton* button);

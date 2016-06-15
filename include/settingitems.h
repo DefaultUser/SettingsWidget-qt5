@@ -52,6 +52,13 @@ public:
      */
     virtual void restoreDefault() = 0;
 
+    /**
+     * @brief Save the setting
+     *
+     * @return void
+     */
+    virtual void saveSetting() = 0;
+
 protected:
 
     /**
@@ -60,13 +67,6 @@ protected:
      * @return void
      */
     virtual void loadSetting() = 0;
-
-    /**
-     * @brief Save the setting
-     *
-     * @return void
-     */
-    virtual void saveSetting() = 0;
 
     /**
      * @brief Pointer to the settings instance
@@ -105,6 +105,13 @@ public:
      */
     void restoreDefault();
 
+    /**
+     * @brief Save the setting
+     *
+     * @return void
+     */
+    void saveSetting();
+
 protected:
 
     /**
@@ -113,13 +120,6 @@ protected:
      * @return void
      */
     void loadSetting();
-
-    /**
-     * @brief Save the setting
-     *
-     * @return void
-     */
-    void saveSetting();
 
 private:
 

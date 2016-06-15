@@ -72,6 +72,13 @@ public:
      */
     void restoreDefaults();
 
+    /**
+     * @brief Save the settings to disk
+     *
+     * @return void
+     */
+    void saveSettings();
+
 private:
 
     /**

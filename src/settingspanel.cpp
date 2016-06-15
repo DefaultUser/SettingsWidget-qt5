@@ -87,3 +87,12 @@ void SettingsPanel::restoreDefaults()
         item->restoreDefault();
     }
 }
+
+
+void SettingsPanel::saveSettings()
+{
+    for(auto item: _items)
+    {
+        item->saveSetting();
+    }
+}

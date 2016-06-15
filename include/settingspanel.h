@@ -31,7 +31,7 @@
  * @brief A panel displaying several settings
  *
  */
-class SettingsPanel : public QWidget
+class SettingsPanel : public QScrollArea
 {
     Q_OBJECT
 
@@ -61,6 +61,13 @@ public:
      * @return void
      */
     void addTitle(QString title);
+
+    /**
+     * @brief Restore the default value for all SettingItems
+     *
+     * @return void
+     */
+    void restoreDefaults();
 
 private:
     /**

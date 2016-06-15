@@ -21,10 +21,13 @@
 #include "settingspanel.h"
 
 
-SettingsPanel::SettingsPanel(QSettings* settings, QWidget* parent) : QWidget(parent), _settings(settings)
+SettingsPanel::SettingsPanel(QSettings* settings, QWidget* parent) : QScrollArea(parent), _settings(settings)
 {
-    auto layout = new QVBoxLayout(this);
-    setLayout(layout);
+    QWidget* widget = new QWidget(this);
+    auto layout = new QVBoxLayout(widget);
+    widget->setLayout(layout);
+    setWidgetResizable(true);
+    setWidget(widget);
 }
 
 
@@ -64,12 +67,22 @@ SettingsPanel* SettingsPanel::fromJson(QJsonArray json, QSettings* settings, QWi
 void SettingsPanel::addSettingItem(SettingItem* item)
 {
     _items.push_back(item);
-    layout()->addWidget(item);
+    widget()->layout()->addWidget(item);
 }
+
 
 void SettingsPanel::addTitle(QString title)
 {
     QLabel* label = new QLabel("<b>" + title + "<b/>", this);
     label->setAlignment(Qt::AlignCenter);
-    layout()->addWidget(label);
+    widget()->layout()->addWidget(label);
+}
+
+
+void SettingsPanel::restoreDefaults()
+{
+    for(auto item: _items)
+    {
+        item->restoreDefault();
+    }
 }

@@ -62,6 +62,12 @@ SettingItem* SettingBool::fromJsonObject(QJsonObject obj, QSettings* settings, Q
 }
 
 
+void SettingBool::restoreDefault()
+{
+    _checkbox->setChecked(_default_value);
+}
+
+
 void SettingBool::loadSetting()
 {
     _settings->beginGroup(_section);

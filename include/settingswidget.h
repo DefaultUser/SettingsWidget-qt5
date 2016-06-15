@@ -22,6 +22,7 @@
 #define SETTINGSWIDGET_H
 
 #include <QtWidgets>
+#include <QDialogButtonBox>
 #include <QSettings>
 #include "settingspanel.h"
 
@@ -67,6 +68,16 @@ public:
 private:
     QSettings* _settings;
     QTabWidget* _panel_container;
+    QDialogButtonBox* _buttons;
+    /**
+     * @brief Restore the default value for all SettingItems in the currently active SettingsPanel
+     *
+     * @return void
+     */
+    void restoreDefaults();
+
+private slots:
+    void on_buttonClicked(QAbstractButton* button);
 };
 
 #endif // SETTINGSWIDGET_H

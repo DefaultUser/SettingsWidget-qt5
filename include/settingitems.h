@@ -45,6 +45,13 @@ public:
      */
     static SettingItem* fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent = 0);
 
+    /**
+     * @brief Restore the default value
+     * 
+     * @return void
+     */
+    virtual void restoreDefault() = 0;
+
 protected:
 
     /**
@@ -90,6 +97,14 @@ public:
     SettingBool(QSettings* settings, QString title, QString section, QString key, bool default_value, QString desc = "", QWidget* parent = 0);
 
     static SettingItem* fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent = 0);
+
+    /**
+     * @brief Restore the default value
+     *
+     * @return void
+     */
+    void restoreDefault();
+
 protected:
 
     /**

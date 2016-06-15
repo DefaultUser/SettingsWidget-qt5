@@ -27,14 +27,16 @@ SettingsWidget::SettingsWidget(QSettings* settings, QWidget* parent, QTabWidget:
 {
     // Layout
     QVBoxLayout* layout = new QVBoxLayout(this);
-    auto buttons = new QDialogButtonBox(QDialogButtonBox::Ok |
-                                        QDialogButtonBox::Cancel |
-                                        QDialogButtonBox::Reset, this);
+    _buttons = new QDialogButtonBox(QDialogButtonBox::Ok |
+                                    QDialogButtonBox::Cancel |
+                                    QDialogButtonBox::RestoreDefaults, this);
     _panel_container = new QTabWidget();
     setTabbarPosition(position);
     layout->addWidget(_panel_container);
-    layout->addWidget(buttons);
+    layout->addWidget(_buttons);
     setLayout(layout);
+
+    connect(_buttons, &QDialogButtonBox::clicked, this, &SettingsWidget::on_buttonClicked);
 }
 
 
@@ -47,10 +49,7 @@ void SettingsWidget::setTabbarPosition(QTabWidget::TabPosition position)
 
 void SettingsWidget::addPanel(QString panelname, SettingsPanel* panel, QIcon icon)
 {
-    auto scroll_area = new QScrollArea(_panel_container);
-    scroll_area->setWidget(panel);
-    scroll_area->setWidgetResizable(true);
-    _panel_container->addTab(scroll_area, icon, panelname);
+    _panel_container->addTab(panel, icon, panelname);
 }
 
 
@@ -80,4 +79,25 @@ void SettingsWidget::addJsonPanel(QString panelname, QString filename, QIcon ico
 void SettingsWidget::addJsonPanel(QString panelname, QJsonArray json, QIcon icon)
 {
     addPanel(panelname, SettingsPanel::fromJson(json, _settings), icon);
+}
+
+
+void SettingsWidget::restoreDefaults()
+{
+    SettingsPanel* panel = (SettingsPanel*)_panel_container->currentWidget();
+    panel->restoreDefaults();
+}
+
+
+void SettingsWidget::on_buttonClicked(QAbstractButton* button)
+{
+    QDialogButtonBox::StandardButton standard_button = _buttons->standardButton(button);
+    switch(standard_button)
+    {
+        case QDialogButtonBox::RestoreDefaults:
+            restoreDefaults();
+            break;
+        default:
+            break;
+    }
 }

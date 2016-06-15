@@ -35,8 +35,11 @@ class SettingsWidget : public QWidget
     Q_OBJECT
 
 public:
+
     SettingsWidget(QSettings* settings, QWidget* parent = 0, QTabWidget::TabPosition position = QTabWidget::North);
+
     void setTabbarPosition(QTabWidget::TabPosition position);
+
     /**
      * @brief Add a SettingsPanel to the QTabWidget
      *
@@ -46,6 +49,7 @@ public:
      * @return void
      */
     void addPanel(QString panelname, SettingsPanel* panel, QIcon icon = QIcon());
+
     /**
      * @brief Generate a SettingsPanel from a .json file and add it to this SettingsWidget
      *
@@ -55,6 +59,7 @@ public:
      * @return void
      */
     void addJsonPanel(QString panelname, QString filename, QIcon icon = QIcon());
+
     /**
      * @brief Generate a SettingsPanel from a .json file and add it to this SettingsWidget
      *
@@ -66,9 +71,13 @@ public:
     void addJsonPanel(QString panelname, QJsonArray json, QIcon icon = QIcon());
 
 private:
+
     QSettings* _settings;
+
     QTabWidget* _panel_container;
+
     QDialogButtonBox* _buttons;
+
     /**
      * @brief Restore the default value for all SettingItems in the currently active SettingsPanel
      *
@@ -77,6 +86,7 @@ private:
     void restoreDefaults();
 
 private slots:
+
     void on_buttonClicked(QAbstractButton* button);
 };
 

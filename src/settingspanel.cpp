@@ -26,8 +26,9 @@ SettingsPanel::SettingsPanel(QSettings* settings, QWidget* parent) : QScrollArea
     QWidget* widget = new QWidget(this);
     auto layout = new QVBoxLayout(widget);
     widget->setLayout(layout);
-    setWidgetResizable(true);
     setWidget(widget);
+
+    setWidgetResizable(true);
 }
 
 

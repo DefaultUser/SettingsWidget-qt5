@@ -36,6 +36,7 @@ class SettingsPanel : public QScrollArea
     Q_OBJECT
 
 public:
+
     SettingsPanel(QSettings* settings, QWidget* parent = 0);
 
     /**
@@ -53,6 +54,7 @@ public:
      * @param item the SettingItem to add
      * @return void
      */
+
     void addSettingItem(SettingItem* item);
     /**
      * @brief Add a title seperator to the panel
@@ -60,6 +62,7 @@ public:
      * @param title the text that should be displayed
      * @return void
      */
+
     void addTitle(QString title);
 
     /**
@@ -70,6 +73,7 @@ public:
     void restoreDefaults();
 
 private:
+
     /**
      * @brief List of all the SettingItems in this panel
      */

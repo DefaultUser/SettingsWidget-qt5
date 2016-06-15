@@ -47,7 +47,7 @@ public:
 
     /**
      * @brief Restore the default value
-     * 
+     *
      * @return void
      */
     virtual void restoreDefault() = 0;
@@ -122,6 +122,7 @@ protected:
     void saveSetting();
 
 private:
+
     QCheckBox* _checkbox;
 
     bool _default_value;
@@ -144,6 +145,7 @@ namespace SettingItemCreation
      * @return void
      */
     void registerType(QString identifier, SettingItemFactory factory);
+
     /**
      * @brief Create a SettingItem from the supplied json object. Returns nullptr when the type was not registered
      *

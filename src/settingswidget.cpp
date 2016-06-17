@@ -85,15 +85,21 @@ void SettingsWidget::addJsonPanel(QString panelname, QJsonArray json, QIcon icon
 
 void SettingsWidget::restoreDefaults()
 {
-    SettingsPanel* panel = (SettingsPanel*)_panel_container->currentWidget();
-    panel->restoreDefaults();
+    for(int i=0; i<_panel_container->count(); ++i)
+    {
+        SettingsPanel* panel = (SettingsPanel*)_panel_container->widget(i);
+        panel->restoreDefaults();
+    }
 }
 
 
 void SettingsWidget::saveSettings()
 {
-    SettingsPanel* panel = (SettingsPanel*)_panel_container->currentWidget();
-    panel->saveSettings();
+    for(int i=0; i<_panel_container->count(); ++i)
+    {
+        SettingsPanel* panel = (SettingsPanel*)_panel_container->widget(i);
+        panel->saveSettings();
+    }
 }
 
 

@@ -79,14 +79,14 @@ private:
     QDialogButtonBox* _buttons;
 
     /**
-     * @brief Restore the default value for all SettingItems in the currently active SettingsPanel
+     * @brief Restore the default value for all SettingItems in all SettingsPanels
      *
      * @return void
      */
     void restoreDefaults();
 
     /**
-     * @brief Save all the settings in the currently active SettingsPanel to disk
+     * @brief Save all the settings in all SettingsPanels to disk
      *
      * @return void
      */

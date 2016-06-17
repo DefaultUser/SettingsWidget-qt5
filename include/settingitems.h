@@ -129,6 +129,50 @@ private:
 };
 
 
+/**
+ * @brief SettingItem with a line edit
+ *
+ */
+class SettingString : public SettingItem
+{
+    Q_OBJECT
+
+public:
+    SettingString(QSettings* settings, QString title, QString section, QString key, QString default_value, QString desc = "", QWidget* parent = 0);
+
+    static SettingItem* fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent = 0);
+
+    /**
+     * @brief Restore the default value
+     *
+     * @return void
+     */
+    void restoreDefault();
+
+    /**
+     * @brief Save the setting
+     *
+     * @return void
+     */
+    void saveSetting();
+
+protected:
+
+    /**
+     * @brief Load the setting
+     *
+     * @return void
+     */
+    void loadSetting();
+
+private:
+
+    QLineEdit* _line_edit;
+
+    QString _default_value;
+};
+
+
 typedef SettingItem* (*SettingItemFactory)(QJsonObject, QSettings*, QWidget*);
 typedef QMap<QString, SettingItemFactory> SettingsTypeMap;
 

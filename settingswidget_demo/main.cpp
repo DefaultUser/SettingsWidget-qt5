@@ -39,8 +39,8 @@ int main(int argc, char *argv[])
     panel->addTitle("Title2");
     SettingBool* set_bool2 = new SettingBool(settings, "testbool2", "sec1", "key2", false, "", panel);
     panel->addSettingItem(set_bool2);
-    SettingBool* set_bool3 = new SettingBool(settings, "testbool3", "sec1", "key3", false, "", panel);
-    panel->addSettingItem(set_bool3);
+    SettingString* set_string = new SettingString(settings, "teststring", "sec1", "key3", "string value", "", panel);
+    panel->addSettingItem(set_string);
     wid.addPanel("Testpanel", panel, QIcon::fromTheme("document-new"));
 
     // from json

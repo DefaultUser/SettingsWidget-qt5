@@ -27,6 +27,10 @@ SettingItem::SettingItem(QSettings* settings, QString section, QString key, QStr
 }
 
 
+/////////////////////////////
+// SettingBool
+/////////////////////////////
+
 SettingBool::SettingBool(QSettings* settings, QString title, QString section, QString key, bool default_value,
                          QString desc, QWidget* parent)
     : SettingItem(settings, section, key, desc, parent), _default_value(default_value)
@@ -84,11 +88,77 @@ void SettingBool::saveSetting()
 }
 
 
+/////////////////////////////
+// SettingString
+/////////////////////////////
+
+SettingString::SettingString(QSettings* settings, QString title, QString section, QString key, QString default_value,
+                             QString desc, QWidget* parent)
+    : SettingItem(settings, section, key, desc, parent), _default_value(default_value)
+{
+    auto layout = new QHBoxLayout(this);
+    QLabel* label = new QLabel(title, this);
+    _line_edit = new QLineEdit(this);
+    layout->addWidget(label);
+    layout->addWidget(_line_edit);
+    setLayout(layout);
+
+    // load the settings
+    loadSetting();
+}
+
+
+SettingItem* SettingString::fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent)
+{
+    if (!obj.contains("title") or !obj.contains("section") or !obj.contains("key"))
+    {
+        qWarning() << "SettingBool item created from json is missing (a) mandatory field(s)";
+        return nullptr;
+    }
+    // parse the json object
+    QString title = obj["title"].toString();
+    QString section = obj["section"].toString();
+    QString key = obj["key"].toString();
+    QString default_value = obj["default"].toString();
+    QString desc = obj["desc"].toString();
+
+    return new SettingString(settings, title, section, key, default_value, desc, parent);
+}
+
+
+void SettingString::restoreDefault()
+{
+    _line_edit->setText(_default_value);
+}
+
+
+void SettingString::loadSetting()
+{
+    _settings->beginGroup(_section);
+    QString value = _settings->value(_key, _default_value).toString();
+    _line_edit->setText(value);
+    _settings->endGroup();
+}
+
+
+void SettingString::saveSetting()
+{
+    _settings->beginGroup(_section);
+    _settings->setValue(_key, _line_edit->text());
+    _settings->endGroup();
+}
+
+
+/////////////////////////////
+// SettingItemCreation
+/////////////////////////////
+
 namespace SettingItemCreation
 {
     namespace
     {
-        SettingsTypeMap _typemap = {{"bool", SettingBool::fromJsonObject}};
+        SettingsTypeMap _typemap = {{"bool", SettingBool::fromJsonObject},
+                                    {"string", SettingString::fromJsonObject}};
     }
 
     void registerType(QString identifier, SettingItemFactory factory)

@@ -34,7 +34,6 @@ SettingBool::SettingBool(QSettings* settings, QString title, QString section, QS
     auto layout = new QHBoxLayout(this);
     QLabel* label = new QLabel(title, this);
     _checkbox = new QCheckBox(this);
-    // TODO: load state from settings and use "default_value" if not found
     layout->addWidget(label);
     layout->addWidget(_checkbox);
     setLayout(layout);

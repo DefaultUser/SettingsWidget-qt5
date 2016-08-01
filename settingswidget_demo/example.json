@@ -39,11 +39,20 @@
      "default": true
  },
  {
-     "type": "int",
+     "type": "numeric",
      "title": "sample integer",
      "desc": "some integer value",
      "section": "generic",
      "key": "sample_int",
+     "decimals": 0,
      "default": 15
+ },
+ {
+     "type": "numeric",
+     "title": "sample double",
+     "desc": "some double value",
+     "section": "generic",
+     "key": "sample_double",
+     "default": 3.14
  }
 ]

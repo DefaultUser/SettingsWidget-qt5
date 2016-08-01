@@ -229,14 +229,16 @@ private:
 
 
 /**
- * @brief SettingItem for integer values
+ * @brief SettingItem for numeric values
  *
  */
-class SettingInt : public SettingItem
+class SettingNumeric : public SettingItem
 {
+    Q_OBJECT
+
 public:
-    SettingInt(QSettings* settings, QString title, QString section, QString key, int default_value,
-               QString desc = "", int minimum = 0, int maximum = 99, QWidget* parent = 0);
+    SettingNumeric(QSettings* settings, QString title, QString section, QString key, double default_value,
+                   QString desc = "", double minimum = 0, double maximum = 99, int decimals = 2, QWidget* parent = 0);
 
     static SettingItem* fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent = 0);
 
@@ -265,8 +267,8 @@ protected:
 
 private:
 
-    QSpinBox* _spinbox;
-    int _default_value;
+    QDoubleSpinBox* _spinbox;
+    double _default_value;
 };
 
 

@@ -173,6 +173,61 @@ private:
 };
 
 
+/**
+ * @brief SettingItem to select folders/files
+ *
+ */
+class SettingPath : public SettingItem
+{
+    Q_OBJECT
+
+public:
+    enum Behaviour : int8_t {OpenFile, SaveFile, Directory};
+
+    SettingPath(QSettings* settings, QString title, QString section, QString key, QString default_value,
+                QString desc = "", Behaviour behaviour = Directory, QString filter = "", QWidget* parent = 0);
+
+    static SettingItem* fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent = 0);
+
+    /**
+     * @brief Restore the default value
+     *
+     * @return void
+     */
+    void restoreDefault();
+
+    /**
+     * @brief Save the setting
+     *
+     * @return void
+     */
+    void saveSetting();
+
+protected:
+
+    /**
+     * @brief Load the setting
+     *
+     * @return void
+     */
+    void loadSetting();
+
+private:
+
+    QLineEdit* _line_edit;
+
+    QPushButton* _btn;
+
+    QString _default_value;
+
+    Behaviour _behaviour;
+
+    QString _filter;
+
+    void showFileDialog();
+};
+
+
 typedef SettingItem* (*SettingItemFactory)(QJsonObject, QSettings*, QWidget*);
 typedef QMap<QString, SettingItemFactory> SettingsTypeMap;
 

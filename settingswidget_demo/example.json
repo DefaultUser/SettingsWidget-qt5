@@ -9,7 +9,9 @@
      "desc": "some path",
      "section": "generic",
      "key": "sample_path",
-     "default": "/tmp"
+     "default": "/tmp",
+     "behaviour": "SaveFile",
+     "filter": "Images(*.png *.jpg);; Text files(*.txt)"
  },
  {
      "type": "options",

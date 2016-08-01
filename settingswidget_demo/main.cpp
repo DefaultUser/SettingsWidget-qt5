@@ -37,8 +37,9 @@ int main(int argc, char *argv[])
     SettingBool* set_bool = new SettingBool(settings, "testbool", "sec1", "key1", false, "TEST", panel);
     panel->addSettingItem(set_bool);
     panel->addTitle("Title2");
-    SettingBool* set_bool2 = new SettingBool(settings, "testbool2", "sec1", "key2", false, "", panel);
-    panel->addSettingItem(set_bool2);
+    SettingPath* set_path = new SettingPath(settings, "testpath", "sec1", "key2", "/home", "",
+                                            SettingPath::Directory, "", panel);
+    panel->addSettingItem(set_path);
     SettingString* set_string = new SettingString(settings, "teststring", "sec1", "key3", "string value", "", panel);
     panel->addSettingItem(set_string);
     wid.addPanel("Testpanel", panel, QIcon::fromTheme("document-new"));

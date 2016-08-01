@@ -150,6 +150,129 @@ void SettingString::saveSetting()
 
 
 /////////////////////////////
+// SettingPath
+/////////////////////////////
+
+SettingPath::SettingPath(QSettings* settings, QString title, QString section, QString key, QString default_value,
+                         QString desc, Behaviour behaviour, QString filter, QWidget* parent)
+    : SettingItem(settings, section, key, desc, parent), _default_value(default_value),
+      _behaviour(behaviour), _filter(filter)
+{
+    auto layout = new QHBoxLayout(this);
+    QLabel* label = new QLabel(title, this);
+    _line_edit = new QLineEdit(this);
+    _btn = new QPushButton(QIcon::fromTheme("folder"), "", this);
+    layout->addWidget(label);
+    layout->addWidget(_line_edit);
+    layout->addWidget(_btn);
+    setLayout(layout);
+
+    // QCompleter for file models
+    auto completer = new QCompleter(this);
+    auto model = new QFileSystemModel(completer);
+    model->setRootPath(QDir::rootPath());
+    if (_behaviour == Directory)
+    {
+        model->setFilter(QDir::Dirs);
+    }
+    completer->setModel(model);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
+    _line_edit->setCompleter(completer);
+
+    // connect the Push button
+    connect(_btn, &QPushButton::clicked, this, &SettingPath::showFileDialog);
+
+    // load the settings
+    loadSetting();
+}
+
+
+SettingItem* SettingPath::fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent)
+{
+    if (!obj.contains("title") or !obj.contains("section") or !obj.contains("key"))
+    {
+        qWarning() << "SettingBool item created from json is missing (a) mandatory field(s)";
+        return nullptr;
+    }
+    // parse the json object
+    QString title = obj["title"].toString();
+    QString section = obj["section"].toString();
+    QString key = obj["key"].toString();
+    QString default_value = obj["default"].toString();
+    QString desc = obj["desc"].toString();
+
+    QString behaviour_str = obj["behaviour"].toString().toLower();
+    Behaviour behaviour;
+
+    if(behaviour_str == "openfile")
+    {
+        behaviour = OpenFile;
+    }
+    else if(behaviour_str == "savefile")
+    {
+        behaviour = SaveFile;
+    }
+    else if(behaviour_str == "directory")
+    {
+        behaviour = Directory;
+    }
+    else
+    {
+        qWarning() << "Undefined behaviour for SettingPath " << title << " - using default: Directory";
+        behaviour = Directory;
+    }
+
+    QString filter = obj["filter"].toString();
+
+    return new SettingPath(settings, title, section, key, default_value, desc, behaviour, filter, parent);
+}
+
+
+void SettingPath::restoreDefault()
+{
+    _line_edit->setText(_default_value);
+}
+
+
+void SettingPath::loadSetting()
+{
+    _settings->beginGroup(_section);
+    QString value = _settings->value(_key, _default_value).toString();
+    _line_edit->setText(value);
+    _settings->endGroup();
+}
+
+
+void SettingPath::saveSetting()
+{
+    _settings->beginGroup(_section);
+    _settings->setValue(_key, _line_edit->text());
+    _settings->endGroup();
+}
+
+
+void SettingPath::showFileDialog()
+{
+    QString filename;
+    switch(_behaviour)
+    {
+        case OpenFile:
+            filename = QFileDialog::getOpenFileName(this, "Select File", _line_edit->text(), _filter);
+            break;
+        case SaveFile:
+            filename = QFileDialog::getSaveFileName(this, "Select File", _line_edit->text(), _filter);
+            break;
+        case Directory:
+            filename = QFileDialog::getExistingDirectory(this, "Select File", _line_edit->text());
+    }
+    if (!filename.isEmpty())
+    {
+        _line_edit->setText(filename);
+    }
+}
+
+
+/////////////////////////////
 // SettingItemCreation
 /////////////////////////////
 
@@ -158,7 +281,8 @@ namespace SettingItemCreation
     namespace
     {
         SettingsTypeMap _typemap = {{"bool", SettingBool::fromJsonObject},
-                                    {"string", SettingString::fromJsonObject}};
+                                    {"string", SettingString::fromJsonObject},
+                                    {"path", SettingPath::fromJsonObject}};
     }
 
     void registerType(QString identifier, SettingItemFactory factory)

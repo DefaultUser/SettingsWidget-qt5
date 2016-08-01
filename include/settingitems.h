@@ -228,6 +228,48 @@ private:
 };
 
 
+/**
+ * @brief SettingItem for integer values
+ *
+ */
+class SettingInt : public SettingItem
+{
+public:
+    SettingInt(QSettings* settings, QString title, QString section, QString key, int default_value,
+               QString desc = "", int minimum = 0, int maximum = 99, QWidget* parent = 0);
+
+    static SettingItem* fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent = 0);
+
+    /**
+     * @brief Restore the default value
+     *
+     * @return void
+     */
+    void restoreDefault();
+
+    /**
+     * @brief Save the setting
+     *
+     * @return void
+     */
+    void saveSetting();
+
+protected:
+
+    /**
+     * @brief Load the setting
+     *
+     * @return void
+     */
+    void loadSetting();
+
+private:
+
+    QSpinBox* _spinbox;
+    int _default_value;
+};
+
+
 typedef SettingItem* (*SettingItemFactory)(QJsonObject, QSettings*, QWidget*);
 typedef QMap<QString, SettingItemFactory> SettingsTypeMap;
 

@@ -37,5 +37,13 @@
      "section": "generic",
      "key": "sample_bool",
      "default": true
+ },
+ {
+     "type": "int",
+     "title": "sample integer",
+     "desc": "some integer value",
+     "section": "generic",
+     "key": "sample_int",
+     "default": 15
  }
 ]

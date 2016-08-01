@@ -273,6 +273,78 @@ void SettingPath::showFileDialog()
 
 
 /////////////////////////////
+// SettingInt
+/////////////////////////////
+
+SettingInt::SettingInt(QSettings* settings, QString title, QString section, QString key, int default_value,
+                       QString desc, int minimum, int maximum, QWidget* parent)
+    : SettingItem(settings, section, key, desc, parent), _default_value(default_value)
+{
+    auto layout = new QHBoxLayout(this);
+    QLabel* label = new QLabel(title, this);
+    _spinbox = new QSpinBox(this);
+    _spinbox->setRange(minimum, maximum);
+    layout->addWidget(label);
+    layout->addWidget(_spinbox);
+    setLayout(layout);
+
+    // load the settings
+    loadSetting();
+}
+
+
+SettingItem* SettingInt::fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent)
+{
+    if (!obj.contains("title") or !obj.contains("section") or !obj.contains("key"))
+    {
+        qWarning() << "SettingBool item created from json is missing (a) mandatory field(s)";
+        return nullptr;
+    }
+    // parse the json object
+    QString title = obj["title"].toString();
+    QString section = obj["section"].toString();
+    QString key = obj["key"].toString();
+    int default_value = obj["default"].toInt();
+    QString desc = obj["desc"].toString();
+    int minimum = 0;
+    int maximum = 99;
+    if(obj.contains("minimum"))
+    {
+        minimum = obj["minimum"].toInt();
+    }
+    if(obj.contains("maximum"))
+    {
+        maximum = obj["maximum"].toInt();
+    }
+
+    return new SettingInt(settings, title, section, key, default_value, desc, minimum, maximum, parent);
+}
+
+
+void SettingInt::restoreDefault()
+{
+    _spinbox->setValue(_default_value);
+}
+
+
+void SettingInt::loadSetting()
+{
+    _settings->beginGroup(_section);
+    int value = _settings->value(_key, _default_value).toInt();
+    _spinbox->setValue(value);
+    _settings->endGroup();
+}
+
+
+void SettingInt::saveSetting()
+{
+    _settings->beginGroup(_section);
+    _settings->setValue(_key, _spinbox->value());
+    _settings->endGroup();
+}
+
+
+/////////////////////////////
 // SettingItemCreation
 /////////////////////////////
 
@@ -282,7 +354,8 @@ namespace SettingItemCreation
     {
         SettingsTypeMap _typemap = {{"bool", SettingBool::fromJsonObject},
                                     {"string", SettingString::fromJsonObject},
-                                    {"path", SettingPath::fromJsonObject}};
+                                    {"path", SettingPath::fromJsonObject},
+                                    {"int", SettingInt::fromJsonObject}};
     }
 
     void registerType(QString identifier, SettingItemFactory factory)

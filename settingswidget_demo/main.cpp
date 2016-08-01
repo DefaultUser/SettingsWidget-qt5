@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
     panel->addSettingItem(set_path);
     SettingString* set_string = new SettingString(settings, "teststring", "sec1", "key3", "string value", "", panel);
     panel->addSettingItem(set_string);
+    SettingInt* set_int = new SettingInt(settings, "testint", "sec1", "key4", 3, "", 0, 100, panel);
+    panel->addSettingItem(set_int);
     wid.addPanel("Testpanel", panel, QIcon::fromTheme("document-new"));
 
     // from json

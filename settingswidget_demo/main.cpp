@@ -44,6 +44,11 @@ int main(int argc, char *argv[])
     panel->addSettingItem(set_string);
     SettingNumeric* set_int = new SettingNumeric(settings, "testint", "sec1", "key4", 3, "", 0, 100, 0, panel);
     panel->addSettingItem(set_int);
+    QVariantMap options;
+    options.insert("one", 1);
+    options.insert("two", 2);
+    SettingOptions* set_option = new SettingOptions(settings, "testoption", "sec1", "key5", 2, options, "", panel);
+    panel->addSettingItem(set_option);
     wid.addPanel("Testpanel", panel, QIcon::fromTheme("document-new"));
 
     // from json

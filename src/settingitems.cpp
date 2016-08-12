@@ -352,6 +352,80 @@ void SettingNumeric::saveSetting()
 
 
 /////////////////////////////
+// SettingOptions
+/////////////////////////////
+
+SettingOptions::SettingOptions(QSettings* settings, QString title, QString section, QString key,
+                               QVariant default_value, QVariantMap options,
+                               QString desc, QWidget* parent)
+    : SettingItem(settings, section, key, desc, parent), _default_value(default_value)
+{
+    auto layout = new QHBoxLayout(this);
+    QLabel* label = new QLabel(title, this);
+    _combobox = new QComboBox(this);
+    layout->addWidget(label);
+    layout->addWidget(_combobox);
+    setLayout(layout);
+
+    for (auto i: options.toStdMap())
+    {
+        _combobox->addItem(i.first, i.second);
+    }
+
+    // load the settings
+    loadSetting();
+}
+
+
+SettingItem* SettingOptions::fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent)
+{
+    if (!obj.contains("title") or !obj.contains("section") or !obj.contains("key") or !obj.contains("options"))
+    {
+        qWarning() << "SettingOptions item created from json is missing (a) mandatory field(s)";
+        return nullptr;
+    }
+    // parse the json object
+    QString title = obj["title"].toString();
+    QString section = obj["section"].toString();
+    QString key = obj["key"].toString();
+    QVariant default_value = obj["default"].toVariant();
+    QString desc = obj["desc"].toString();
+    QVariantMap options = obj["options"].toObject().toVariantMap();
+
+    return new SettingOptions(settings, title, section, key, default_value, options, desc, parent);
+}
+
+
+void SettingOptions::addItem(const QString& text, const QVariant& userData)
+{
+    _combobox->addItem(text, userData);
+}
+
+
+void SettingOptions::restoreDefault()
+{
+    _combobox->setCurrentIndex(_combobox->findData(_default_value));
+}
+
+
+void SettingOptions::loadSetting()
+{
+    _settings->beginGroup(_section);
+    _combobox->setCurrentIndex(_combobox->findData(_settings->value(_key, _default_value)));
+    _settings->endGroup();
+}
+
+
+void SettingOptions::saveSetting()
+{
+    _settings->beginGroup(_section);
+    _settings->setValue(_key, _combobox->currentData());
+    _settings->endGroup();
+}
+
+
+
+/////////////////////////////
 // SettingItemCreation
 /////////////////////////////
 
@@ -362,7 +436,8 @@ namespace SettingItemCreation
         SettingsTypeMap _typemap = {{"bool", SettingBool::fromJsonObject},
                                     {"string", SettingString::fromJsonObject},
                                     {"path", SettingPath::fromJsonObject},
-                                    {"numeric", SettingNumeric::fromJsonObject}};
+                                    {"numeric", SettingNumeric::fromJsonObject},
+                                    {"options", SettingOptions::fromJsonObject}};
     }
 
     void registerType(QString identifier, SettingItemFactory factory)

@@ -19,8 +19,8 @@
      "desc": "something",
      "section": "generic",
      "key": "sample_options",
-     "options": ["option a", "option b", "option c"],
-     "default": "option a"
+     "options": {"option a": 1, "option b": 2, "option c": 3},
+     "default": 3
  },
  {
      "type": "string",

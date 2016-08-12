@@ -272,6 +272,52 @@ private:
 };
 
 
+/**
+ * @brief SettingItem for exclusive options (combobox)
+ *
+ */
+class SettingOptions : public SettingItem
+{
+    Q_OBJECT
+
+public:
+    SettingOptions(QSettings* settings, QString title, QString section, QString key, QVariant default_value,
+                   QVariantMap options, QString desc = "", QWidget* parent = 0);
+
+    static SettingItem* fromJsonObject(QJsonObject obj, QSettings* settings, QWidget* parent = 0);
+
+    void addItem(const QString &text, const QVariant &userData);
+
+    /**
+     * @brief Restore the default value
+     *
+     * @return void
+     */
+    void restoreDefault();
+
+    /**
+     * @brief Save the setting
+     *
+     * @return void
+     */
+    void saveSetting();
+
+protected:
+
+    /**
+     * @brief Load the setting
+     *
+     * @return void
+     */
+    void loadSetting();
+
+private:
+
+    QComboBox* _combobox;
+    QVariant _default_value;
+};
+
+
 typedef SettingItem* (*SettingItemFactory)(QJsonObject, QSettings*, QWidget*);
 typedef QMap<QString, SettingItemFactory> SettingsTypeMap;
 

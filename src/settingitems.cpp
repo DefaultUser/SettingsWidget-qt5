@@ -112,7 +112,7 @@ SettingItem* SettingString::fromJsonObject(QJsonObject obj, QSettings* settings,
 {
     if (!obj.contains("title") or !obj.contains("section") or !obj.contains("key"))
     {
-        qWarning() << "SettingBool item created from json is missing (a) mandatory field(s)";
+        qWarning() << "SettingString item created from json is missing (a) mandatory field(s)";
         return nullptr;
     }
     // parse the json object
@@ -191,7 +191,7 @@ SettingItem* SettingPath::fromJsonObject(QJsonObject obj, QSettings* settings, Q
 {
     if (!obj.contains("title") or !obj.contains("section") or !obj.contains("key"))
     {
-        qWarning() << "SettingBool item created from json is missing (a) mandatory field(s)";
+        qWarning() << "SettingPath item created from json is missing (a) mandatory field(s)";
         return nullptr;
     }
     // parse the json object
@@ -299,7 +299,7 @@ SettingItem* SettingNumeric::fromJsonObject(QJsonObject obj, QSettings* settings
 {
     if (!obj.contains("title") or !obj.contains("section") or !obj.contains("key"))
     {
-        qWarning() << "SettingBool item created from json is missing (a) mandatory field(s)";
+        qWarning() << "SettingNumeric item created from json is missing (a) mandatory field(s)";
         return nullptr;
     }
     // parse the json object
